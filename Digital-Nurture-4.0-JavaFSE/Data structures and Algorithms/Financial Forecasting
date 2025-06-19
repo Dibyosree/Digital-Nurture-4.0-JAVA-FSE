@@ -1,1 +1,72 @@
+import java.util.*;
+interface Stock {
+    void registerObserver(Observer o);
+    void deregisterObserver(Observer o);
+    void notifyObservers();
+}
+interface Observer {
+    void update(String stockName, double newPrice);
+}
+class StockMarket implements Stock {
+    private List<Observer> observers = new ArrayList<>();
+    private String stockName;
+    private double stockPrice;
+
+    public void setStock(String name, double price) {
+        this.stockName = name;
+        this.stockPrice = price;
+        System.out.println("\n Stock Updated: " + stockName + " - ₹" + stockPrice);
+        notifyObservers();
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        observers.add(o);
+        System.out.println("Observer Registered: " + o.getClass().getSimpleName());
+    }
+
+    @Override
+    public void deregisterObserver(Observer o) {
+        observers.remove(o);
+        System.out.println("Observer Deregistered: " + o.getClass().getSimpleName());
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o : observers) {
+            o.update(stockName, stockPrice);
+        }
+    }
+}
+class MobileApp implements Observer {
+    @Override
+    public void update(String stockName, double newPrice) {
+        System.out.println("MobileApp: " + stockName + " is now ₹" + newPrice);
+    }
+}
+
+class WebApp implements Observer {
+    @Override
+    public void update(String stockName, double newPrice) {
+        System.out.println("WebApp: " + stockName + " is now ₹" + newPrice);
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        StockMarket stockMarket = new StockMarket();
+
+        Observer mobileApp = new MobileApp();
+        Observer webApp = new WebApp();
+
+        stockMarket.registerObserver(mobileApp);
+        stockMarket.registerObserver(webApp);
+
+        stockMarket.setStock("TCS", 3750.00);
+        stockMarket.setStock("INFY", 1450.25);
+
+        stockMarket.deregisterObserver(webApp);
+
+        stockMarket.setStock("RELIANCE", 2700.00);
+    }
+}
 
