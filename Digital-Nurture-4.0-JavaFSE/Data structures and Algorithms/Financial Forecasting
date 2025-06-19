@@ -1,3 +1,6 @@
+//What is Recursion?
+//Recursion is a method where a function calls itself to solve smaller subproblems of the original problem. It's useful when a problem can be broken into smaller, repetitive parts.
+
 public class Main {
     public static double futureValueRecursive(double presentValue, double rate, int years) {
         if (years == 0) {
@@ -19,14 +22,19 @@ public class Main {
         double presentValue = 10000; // ₹10,000 initial investment
         double annualRate = 0.08;    // 8% growth per year
         int years = 5;
-
-        // Basic recursive approach
         double result = futureValueRecursive(presentValue, annualRate, years);
         System.out.printf("Recursive Future Value (Year %d): ₹%.2f\n", years, result);
-
-        // Optimized approach
         Double[] memo = new Double[years + 1];
         double optimizedResult = futureValueMemo(presentValue, annualRate, years, memo);
         System.out.printf("Memoized Future Value (Year %d): ₹%.2f\n", years, optimizedResult);
     }
 }
+
+// Time Complexity: Recursive algorithms can have exponential time complexity (O(2^n)) due to overlapping subproblems.
+
+// Optimization Techniques:
+
+//1. Memoization: Store results of expensive function calls to avoid redundant computation.
+//2. Dynamic Programming: Break down problems into smaller subproblems, solve each once, and store results.
+//3. Tabulation: Iterate through the problem space and store results in a table.
+//These techniques can reduce time complexity and improve efficiency.
